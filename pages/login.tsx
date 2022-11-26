@@ -1,6 +1,6 @@
 import Layout from '../components/layout';
 import { useForm } from 'react-hook-form';
-import { Button } from '@mui/material';
+import { signIn } from 'next-auth/react';
 
 interface LoginFields {
   email: string;
@@ -14,8 +14,13 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFields>();
 
-  const onSubmit = (data: LoginFields) => {
-    console.log(data);
+  const onSubmit = async (data: LoginFields) => {
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        ...data,
+      });
+    } catch (err) {}
   };
 
   return (
@@ -61,13 +66,9 @@ export default function Login() {
             )}
           </div>
           <div className="mb-10">
-            <Button
-              variant="contained"
-              className="w-full primary-button"
-              type="submit"
-            >
+            <button type="submit" className="primary-button">
               登录
-            </Button>
+            </button>
           </div>
         </form>
       </div>
