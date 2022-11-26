@@ -34,3 +34,7 @@ select,
 textarea {
   @apply border p-2 rounded outline-none ring-indigo-300 focus:ring;
 }
+
+.primary-button {
+  background-color: #1976d2;
+}

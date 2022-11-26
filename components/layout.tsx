@@ -15,7 +15,7 @@ export default function Layout({
       <Head>
         <title>{title ?? 'Lyric Music'}</title>
       </Head>
-      <header className="w-full h-16 shadow-sm shadow-gray-400 flex flex-row justify-between px-10 py-2 items-center shrink-0">
+      <header className="w-full h-16 shadow-inner shadow-gray-9=400 flex flex-row justify-between px-10 py-2 items-center shrink-0">
         <div>
           <Link href="/">
             <Image src="/images/logo.png" alt="LOGO" width={200} height={48} />
@@ -25,7 +25,12 @@ export default function Layout({
           <span>请登录</span>
         </div>
       </header>
-      <main className="grow pt-2">{children}</main>
+      <main
+        className="grow pt-2 bg-no-repeat bg-cover bg-center"
+        style={{ backgroundImage: 'url("./images/bg.jpg")' }}
+      >
+        {children}
+      </main>
     </div>
   );
 }
