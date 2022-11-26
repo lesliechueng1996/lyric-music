@@ -28,3 +28,9 @@ a {
     background: black;
   }
 }
+
+input,
+select,
+textarea {
+  @apply border p-2 rounded outline-none ring-indigo-300 focus:ring;
+}

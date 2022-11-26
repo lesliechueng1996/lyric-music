@@ -11,11 +11,11 @@ export default function Layout({
   children: ReactNode;
 }) {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen flex flex-col">
       <Head>
         <title>{title ?? 'Lyric Music'}</title>
       </Head>
-      <header className="w-full h-16 shadow-sm shadow-gray-400 flex flex-row justify-between px-10 py-2 items-center">
+      <header className="w-full h-16 shadow-sm shadow-gray-400 flex flex-row justify-between px-10 py-2 items-center shrink-0">
         <div>
           <Link href="/">
             <Image src="/images/logo.png" alt="LOGO" width={200} height={48} />
@@ -25,7 +25,7 @@ export default function Layout({
           <span>请登录</span>
         </div>
       </header>
-      <main>{children}</main>
+      <main className="grow pt-2">{children}</main>
     </div>
   );
 }
