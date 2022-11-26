@@ -1,6 +1,7 @@
 import Layout from '../components/layout';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
+import { useToast } from 'contexts/toast-context';
 
 interface LoginFields {
   email: string;
@@ -13,6 +14,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFields>();
+  const { error } = useToast();
 
   const onSubmit = async (data: LoginFields) => {
     try {
@@ -20,7 +22,13 @@ export default function Login() {
         redirect: false,
         ...data,
       });
-    } catch (err) {}
+      if (!result || !result.ok) {
+        error(`登录失败 ${result?.error}`);
+      }
+    } catch (err) {
+      console.log('登录失败', err);
+      error('登录失败');
+    }
   };
 
   return (
@@ -66,7 +74,7 @@ export default function Login() {
             )}
           </div>
           <div className="mb-10">
-            <button type="submit" className="primary-button">
+            <button type="submit" className="primary-button w-full">
               登录
             </button>
           </div>
