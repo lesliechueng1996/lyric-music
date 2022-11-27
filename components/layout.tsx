@@ -52,7 +52,7 @@ export default function Layout({
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md bg-orange-300 px-4 py-2 text-sm font-medium text-black hover:bg-orange-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  {session.user?.avatar && (
+                  {/* {session.user?.avatar && (
                     <div>
                       <Image
                         src={session.user?.avatar}
@@ -61,7 +61,7 @@ export default function Layout({
                         height={40}
                       />
                     </div>
-                  )}
+                  )} */}
                   {session.user?.nickname}
                   <ChevronDownIcon
                     className="ml-2 -mr-1 h-5 w-5 text-black"
