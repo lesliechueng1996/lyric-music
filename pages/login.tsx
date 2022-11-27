@@ -2,6 +2,7 @@ import Layout from '../components/layout';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { useToast } from 'contexts/toast-context';
+import { useRouter } from 'next/router';
 
 interface LoginFields {
   email: string;
@@ -15,6 +16,7 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFields>();
   const { error } = useToast();
+  const router = useRouter();
 
   const onSubmit = async (data: LoginFields) => {
     try {
@@ -24,7 +26,9 @@ export default function Login() {
       });
       if (!result || !result.ok) {
         error(`登录失败 ${result?.error}`);
+        return;
       }
+      router.replace('/');
     } catch (err) {
       console.log('登录失败', err);
       error('登录失败');
