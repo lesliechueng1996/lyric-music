@@ -39,4 +39,8 @@ textarea {
   @apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-amber-500 transition-all;
 }
 
+.menu-item {
+  @apply flex flex-row gap-5 items-center px-10 py-5 hover:bg-amber-500 hover:text-white transition-all;
+}
+
 @import 'react-toastify/dist/ReactToastify.css';

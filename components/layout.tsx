@@ -8,6 +8,10 @@ import {
   ChevronDownIcon,
   PencilIcon,
   ArrowLeftOnRectangleIcon,
+  MusicalNoteIcon,
+  QueueListIcon,
+  RectangleStackIcon,
+  UsersIcon,
 } from '@heroicons/react/20/solid';
 
 export default function Layout({
@@ -31,7 +35,7 @@ export default function Layout({
         <title>{title ?? 'Lyric Music'}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header className="w-full h-16 shadow-inner shadow-gray-9=400 flex flex-row justify-between px-10 py-2 items-center shrink-0">
+      <header className="w-full h-16 shadow-md flex flex-row justify-between px-10 py-2 items-center shrink-0">
         <div>
           <Link href="/">
             <Image src="/images/logo.png" alt="LOGO" width={200} height={48} />
@@ -122,11 +126,35 @@ export default function Layout({
           </div>
         )}
       </header>
-      <main
-        className="grow pt-2 bg-no-repeat bg-cover bg-center"
-        style={{ backgroundImage: 'url("./images/bg.jpg")' }}
-      >
-        {children}
+      <main className="grow flex flex-row">
+        {status === 'authenticated' && (
+          <aside className="shrink-0 w-60 h-full shadow-inne">
+            <Link href="/" className="menu-item">
+              <MusicalNoteIcon className="w-5 h-5 shrink-0" />
+              <span className="grow">全部音乐</span>
+            </Link>
+            <Link href="/" className="menu-item">
+              <QueueListIcon className="w-5 h-5 shrink-0" />
+              <span className="grow">歌单</span>
+            </Link>
+            <Link href="/" className="menu-item">
+              <RectangleStackIcon className="w-5 h-5 shrink-0" />
+              <span className="grow">最近播放</span>
+            </Link>
+            {session.user.isAdmin && (
+              <Link href="/" className="menu-item">
+                <UsersIcon className="w-5 h-5 shrink-0" />
+                <span className="grow">用户列表</span>
+              </Link>
+            )}
+          </aside>
+        )}
+        <section
+          className="grow p-2 h-full bg-no-repeat bg-cover bg-center shadow-md"
+          style={{ backgroundImage: 'url("./images/bg.jpg")' }}
+        >
+          {children}
+        </section>
       </main>
     </div>
   );
