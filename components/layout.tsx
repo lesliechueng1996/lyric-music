@@ -129,7 +129,7 @@ export default function Layout({
       <main className="grow flex flex-row">
         {status === 'authenticated' && (
           <aside className="shrink-0 w-60 h-full shadow-inne">
-            <Link href="/" className="menu-item">
+            <Link href="/musics" className="menu-item">
               <MusicalNoteIcon className="w-5 h-5 shrink-0" />
               <span className="grow">全部音乐</span>
             </Link>

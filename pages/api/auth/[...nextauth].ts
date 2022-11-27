@@ -6,6 +6,9 @@ import { checkPwd } from 'utils/string-utils';
 import logger from '../../../utils/logger';
 
 export default NextAuth({
+  pages: {
+    signIn: '/login',
+  },
   providers: [
     CredentialsProvider({
       name: 'Credentials',

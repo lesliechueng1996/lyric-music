@@ -9,7 +9,7 @@ interface LoginFields {
   password: string;
 }
 
-export default function Login() {
+export default function Login({}) {
   const {
     register,
     handleSubmit,
@@ -26,6 +26,11 @@ export default function Login() {
       });
       if (!result || !result.ok) {
         error(`登录失败 ${result?.error}`);
+        return;
+      }
+      const redirectUrl = router.query.callbackUrl as string;
+      if (redirectUrl) {
+        router.replace(redirectUrl);
         return;
       }
       router.replace('/');
