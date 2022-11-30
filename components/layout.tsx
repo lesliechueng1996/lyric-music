@@ -150,7 +150,7 @@ export default function Layout({
           </aside>
         )}
         <section
-          className="grow p-2 h-full bg-no-repeat bg-cover bg-center shadow-md"
+          className="grow px-3 py-2 h-full bg-no-repeat bg-cover bg-center shadow-md"
           style={{ backgroundImage: 'url("./images/bg.jpg")' }}
         >
           {children}
