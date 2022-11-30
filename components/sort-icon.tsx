@@ -4,10 +4,12 @@ import {
   ArrowDownIcon,
 } from '@heroicons/react/20/solid';
 
+export type SortType = 'ASC' | 'DESC' | undefined;
+
 export default function SortIcon({
   sortType,
 }: {
-  sortType: 'ASC' | 'DESC' | undefined;
+  sortType: SortType
 }) {
   if (sortType === 'ASC') {
     return <ArrowUpIcon className="w-5 h-5" />;

@@ -1,4 +1,5 @@
-import SortIcon from './sort-icon';
+import { useState } from 'react';
+import SortIcon, { SortType } from './sort-icon';
 
 export interface Column {
   key: string;
@@ -7,27 +8,72 @@ export interface Column {
   hidden?: boolean;
 }
 
+interface InnerColumn extends Column {
+  sortType: SortType;
+}
+
 export default function DataTable<T extends { [key: string]: string }>({
   data,
   columns,
   uniqueKey,
+  onSort,
 }: {
   data: Array<T>;
   columns: Array<Column>;
   uniqueKey: string;
+  onSort?: (data: {
+    field: keyof T;
+    sortType: SortType;
+  }) => void | Promise<void>;
 }) {
+  const initColumn = columns.map((col) => ({
+    ...col,
+    sortType: undefined,
+  }));
+  const [innerColumn, setInnerColumn] =
+    useState<Array<InnerColumn>>(initColumn);
+
+  const onHeaderClick = (column: InnerColumn) => async () => {
+    if (!column.sortable) {
+      return;
+    }
+    const index = innerColumn.findIndex((item) => item.key === column.key);
+
+    if (column.sortType === undefined) {
+      column.sortType = 'ASC';
+    } else if (column.sortType === 'ASC') {
+      column.sortType = 'DESC';
+    } else if (column.sortType === 'DESC') {
+      column.sortType = 'ASC';
+    } else {
+      column.sortType = undefined;
+    }
+    innerColumn[index] = column;
+    innerColumn.forEach((col, i) => {
+      if (i !== index) {
+        col.sortType = undefined;
+      }
+    });
+    setInnerColumn([...innerColumn]);
+    onSort && (await onSort({ field: column.key, sortType: column.sortType }));
+  };
+
   return (
     <div className="rounded-2xl border overflow-hidden">
       <table className="table-auto w-full border-collapse text-slate-400">
         <thead className="bg-slate-50 text-left font-medium border-b">
           <tr>
-            {columns
+            {innerColumn
               .filter((column) => !column.hidden)
               .map((column) => (
-                <th className="p-4 pl-8 cursor-pointer" key={column.key}>
+                <th
+                  className="p-4 pl-8 cursor-pointer"
+                  key={column.key}
+                  onClick={onHeaderClick(column)}
+                >
                   <div className="flex flex-row items-center gap-2">
                     {column.title}
-                    {column.sortable && <SortIcon sortType={undefined} />}
+                    {column.sortable && <SortIcon sortType={column.sortType} />}
                   </div>
                 </th>
               ))}
@@ -36,7 +82,7 @@ export default function DataTable<T extends { [key: string]: string }>({
         <tbody>
           {data.map((row) => (
             <tr key={row[uniqueKey]}>
-              {columns
+              {innerColumn
                 .filter((column) => !column.hidden)
                 .map((column) => (
                   <td

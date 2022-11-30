@@ -88,7 +88,14 @@ export default function MusicsPage() {
           />
         </div>
         <div className="bg-white p-5 grow">
-          <DataTable columns={cols} data={tableData} uniqueKey="id" />
+          <DataTable
+            columns={cols}
+            data={tableData}
+            uniqueKey="id"
+            onSort={({ field, sortType }) => {
+              console.log(field, sortType);
+            }}
+          />
         </div>
       </div>
     </Layout>
