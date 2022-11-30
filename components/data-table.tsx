@@ -99,6 +99,9 @@ export default function DataTable<T extends { [key: string]: string }>({
           ))}
         </tbody>
       </table>
+      <div className="mt-5 w-full">
+        
+      </div>
     </div>
   );
 }
