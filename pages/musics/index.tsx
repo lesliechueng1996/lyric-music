@@ -8,7 +8,15 @@ interface MusicSearchForm {
   hasLyric: string;
 }
 
-const cols: Array<Column> = [
+interface MusicData {
+  id: string;
+  musicName: string;
+  singer: string;
+  duration: string;
+  hasLyric: string;
+}
+
+const cols: Array<Column<MusicData>> = [
   {
     key: 'id',
     title: '',
@@ -33,6 +41,15 @@ const cols: Array<Column> = [
     key: 'hasLyric',
     title: '是否有歌词',
     sortable: true,
+  },
+  {
+    key: 'tools',
+    title: '操作',
+    render: (row: MusicData) => (
+      <div>
+        <button className="primary-button">删除</button>
+      </div>
+    ),
   },
 ];
 

@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import SortIcon, { SortType } from './sort-icon';
 
-export interface Column {
+export interface Column<T> {
   key: string;
   title: string;
   sortable?: boolean;
   hidden?: boolean;
+  render?: (data: T) => ReactNode;
 }
 
-interface InnerColumn extends Column {
+interface InnerColumn<T> extends Column<T> {
   sortType: SortType;
 }
 
@@ -19,7 +20,7 @@ export default function DataTable<T extends { [key: string]: string }>({
   onSort,
 }: {
   data: Array<T>;
-  columns: Array<Column>;
+  columns: Array<Column<T>>;
   uniqueKey: string;
   onSort?: (data: {
     field: keyof T;
@@ -31,9 +32,9 @@ export default function DataTable<T extends { [key: string]: string }>({
     sortType: undefined,
   }));
   const [innerColumn, setInnerColumn] =
-    useState<Array<InnerColumn>>(initColumn);
+    useState<Array<InnerColumn<T>>>(initColumn);
 
-  const onHeaderClick = (column: InnerColumn) => async () => {
+  const onHeaderClick = (column: InnerColumn<T>) => async () => {
     if (!column.sortable) {
       return;
     }
@@ -67,7 +68,9 @@ export default function DataTable<T extends { [key: string]: string }>({
               .filter((column) => !column.hidden)
               .map((column) => (
                 <th
-                  className="p-4 pl-8 cursor-pointer"
+                  className={`p-4 pl-8 ${
+                    column.sortable ? 'cursor-pointer' : ''
+                  }`}
                   key={column.key}
                   onClick={onHeaderClick(column)}
                 >
@@ -89,7 +92,7 @@ export default function DataTable<T extends { [key: string]: string }>({
                     key={`${row[uniqueKey]}-${column.key}`}
                     className="border-b border-slate-100 p-4 pl-8 text-slate-500"
                   >
-                    {row[column.key]}
+                    {!!column.render ? column.render(row) : row[column.key]}
                   </td>
                 ))}
             </tr>
