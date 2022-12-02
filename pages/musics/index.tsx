@@ -1,6 +1,7 @@
 import DataTable, { Column } from '@/components/data-table';
 import Layout from '@/components/layout';
 import SearchForm, { SearchFormItem } from '@/components/search-form';
+import Link from 'next/link';
 
 interface MusicSearchForm {
   musicName: string;
@@ -102,7 +103,11 @@ export default function MusicsPage() {
             onSearch={(data: MusicSearchForm) => {
               console.log(data);
             }}
-          />
+          >
+            <Link href="/musics/new">
+              <button className="sky-button">添加</button>
+            </Link>
+          </SearchForm>
         </div>
         <div className="bg-white p-5 grow">
           <DataTable

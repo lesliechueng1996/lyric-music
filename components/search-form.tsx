@@ -1,4 +1,5 @@
 import { useRef, useState, ReactNode } from 'react';
+import LoadingButton from './loading-button';
 
 export interface SearchFormItem<T> {
   label: string;
@@ -59,28 +60,21 @@ export default function SearchForm<T>({
           </div>
         ))}
       </div>
-      <div className="text-right">
-        <button
-          className={loading ? 'disabled-button' : 'primary-button'}
+      <div className="flex flex-row justify-end items-center gap-3">
+        <LoadingButton
           onClick={async () => {
-            setLoading(true);
-            try {
-              const data: T = Object.keys(elements.current).reduce(
-                (preValue, curValue) => ({
-                  ...preValue,
-                  [curValue]: elements.current[curValue]?.value,
-                }),
-                {} as T
-              );
-              await onSearch(data);
-            } finally {
-              setLoading(false);
-            }
+            const data: T = Object.keys(elements.current).reduce(
+              (preValue, curValue) => ({
+                ...preValue,
+                [curValue]: elements.current[curValue]?.value,
+              }),
+              {} as T
+            );
+            await onSearch(data);
           }}
-          disabled={loading}
         >
           搜索
-        </button>
+        </LoadingButton>
         {children}
       </div>
     </div>

@@ -9,4 +9,4 @@ export default withAuth({
   },
 });
 
-export const config = { matcher: ['/musics'] };
+export const config = { matcher: ['/musics/(.*)'] };
