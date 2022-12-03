@@ -6,7 +6,11 @@ import LoadingButton from './loading-button';
 import { HttpMethod, HttpStatus } from 'utils/http';
 import MusicForm, { MusicFileMetadata } from './music-form';
 
-export default function UploadMusic() {
+export default function UploadMusic({
+  onFormSave,
+}: {
+  onFormSave: (data: MusicFileMetadata) => Promise<void>;
+}) {
   const [uploadFile, setUploadFile] = useState<File>();
   const [musicMetadata, setMusicMetadata] = useState<MusicFileMetadata>({
     fileId: '',
@@ -48,10 +52,6 @@ export default function UploadMusic() {
     } catch (e) {
       error('上传文件失败');
     }
-  };
-
-  const onFormSave = async (data: MusicFileMetadata) => {
-    console.log(data);
   };
 
   return (

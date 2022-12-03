@@ -1,6 +1,10 @@
 import Layout from '@/components/layout';
 import UploadMusic from '@/components/upload-music';
 import { Tab } from '@headlessui/react';
+import { MusicFileMetadata } from '@/components/music-form';
+import { HttpMethod, HttpStatus } from 'utils/http';
+import { useToast } from 'contexts/toast-context';
+import { useRouter } from 'next/router';
 
 const tabClass = ({ selected }: { selected: boolean }) =>
   `w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 ${
@@ -10,6 +14,36 @@ const tabClass = ({ selected }: { selected: boolean }) =>
   }`;
 
 export default function NewMusicPage() {
+  const { info, error } = useToast();
+  const router = useRouter();
+
+  const saveMusic = async (data: MusicFileMetadata) => {
+    try {
+      const response = await fetch('/api/musics/music', {
+        method: HttpMethod.POST,
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.status === HttpStatus.Created) {
+        info('保存成功');
+        router.replace('/musics');
+        return;
+      } else {
+        const result = await response.json();
+        error(result.message);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        error(err.message || '保存失败');
+        return;
+      }
+      console.log(err);
+      error('保存失败');
+    }
+  };
+
   return (
     <Layout title="添加歌曲">
       <div className="h-full bg-white p-5">
@@ -24,7 +58,7 @@ export default function NewMusicPage() {
           </Tab.List>
           <Tab.Panels className="mt-2">
             <Tab.Panel className="rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2">
-              <UploadMusic />
+              <UploadMusic onFormSave={saveMusic} />
             </Tab.Panel>
             <Tab.Panel className="rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2">
               456

@@ -34,7 +34,7 @@ const createMusicRecord = async (
       isFavorite: false,
     });
     logger.info('music save success');
-    res.status(HttpStatus.OK);
+    res.status(HttpStatus.Created).json({});
   } catch (e) {
     logger.error(e, 'save music error');
     res.status(HttpStatus.InternalServerError).json({ message: '保存失败' });

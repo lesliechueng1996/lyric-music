@@ -22,11 +22,9 @@ export const uploadMusic = (filePath: string, name: string) => {
       meta,
       (err, objInfo) => {
         if (err) {
-          console.log(err);
           reject(err);
           return;
         }
-        console.log('Success', objInfo);
         resolve(objInfo);
       }
     );
@@ -43,7 +41,6 @@ export const isMusicExist = (name: string) => {
           resolve(false);
           return;
         }
-        console.log('Success', tagsList);
         resolve(true);
       }
     );
