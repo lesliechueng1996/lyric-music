@@ -13,6 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
+    "ajv": "^8.11.2",
     "bcrypt": "^5.1.0",
     "formidable": "^2.0.1",
     "minio": "^7.0.32",

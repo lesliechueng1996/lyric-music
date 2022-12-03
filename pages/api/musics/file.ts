@@ -5,6 +5,7 @@ import logger from '../../../utils/logger';
 import { parseFile } from 'music-metadata';
 import { uploadMusic as uploadMusicFile } from '../../../utils/storage';
 import { nanoid } from 'nanoid';
+import { getToken } from 'next-auth/jwt';
 
 export const config = {
   api: {
@@ -59,7 +60,15 @@ const uploadMusic = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   logger.info('begin /api/musics/file');
+  const token = await getToken({ req });
+  if (!token) {
+    res.status(HttpStatus.Unauthorized).json({});
+    return;
+  }
+
   if (req.method === HttpMethod.POST) {
     await uploadMusic(req, res);
+  } else {
+    res.status(HttpStatus.MethodNotAllowed).json({});
   }
 };
