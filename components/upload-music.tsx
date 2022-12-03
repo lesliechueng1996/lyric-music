@@ -4,24 +4,17 @@ import 'react-dropzone/examples/theme.css';
 import { useToast } from 'contexts/toast-context';
 import LoadingButton from './loading-button';
 import { HttpMethod, HttpStatus } from 'utils/http';
-import { useForm } from 'react-hook-form';
-
-interface MusicFileMetadata {
-  fileId: string;
-  title: string;
-  artist: string;
-  duration: number;
-}
+import MusicForm, { MusicFileMetadata } from './music-form';
 
 export default function UploadMusic() {
   const [uploadFile, setUploadFile] = useState<File>();
+  const [musicMetadata, setMusicMetadata] = useState<MusicFileMetadata>({
+    fileId: '',
+    title: '',
+    artist: '',
+    duration: 0,
+  });
   const { info, error } = useToast();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<MusicFileMetadata>();
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -48,7 +41,7 @@ export default function UploadMusic() {
       const body = await response.json();
       if (response.status === HttpStatus.Created) {
         info('上传成功');
-        // setValue(body);
+        setMusicMetadata(body);
       } else {
         error(body.message);
       }
@@ -57,7 +50,9 @@ export default function UploadMusic() {
     }
   };
 
-  const onSave = (data: MusicFileMetadata) => {};
+  const onFormSave = async (data: MusicFileMetadata) => {
+    console.log(data);
+  };
 
   return (
     <div className="grid grid-cols-12 gap-5">
@@ -85,16 +80,7 @@ export default function UploadMusic() {
         </div>
       </div>
       <div className="col-span-6">
-        <form
-          className="border rounded-md shadow-md shadow-gray-400 p-10 bg-white"
-          onSubmit={handleSubmit(onSave)}
-        >
-          <div className="mb-10">
-            <button type="submit" className="primary-button w-full">
-              保存
-            </button>
-          </div>
-        </form>
+        <MusicForm metadata={musicMetadata} onFormSave={onFormSave} />
       </div>
     </div>
   );
