@@ -32,3 +32,20 @@ export const uploadMusic = (filePath: string, name: string) => {
     );
   });
 };
+
+export const isMusicExist = (name: string) => {
+  return new Promise((resolve) => {
+    minioClient.getObjectTagging(
+      process.env.MINIO_BUCKET_NAME || '',
+      name,
+      function (err, tagsList) {
+        if (err) {
+          resolve(false);
+          return;
+        }
+        console.log('Success', tagsList);
+        resolve(true);
+      }
+    );
+  });
+};
