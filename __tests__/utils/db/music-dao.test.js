@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { saveMusicRecord } from '@/utils/db/music-dao';
 import MusicModel from '@/models/db/music';
 import { connect } from '@/utils/db/index';

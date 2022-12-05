@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { findUserByEmail } from '@/utils/db/user-dao';
 import UserModel from '@/models/db/user';
 import { connect } from '@/utils/db/index';

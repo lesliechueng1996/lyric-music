@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { uploadMusic, isMusicExist } from '@/utils/storage';
 
 jest.mock('minio', () => {

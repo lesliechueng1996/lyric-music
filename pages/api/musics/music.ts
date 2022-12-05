@@ -1,13 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { HttpMethod, HttpStatus } from 'utils/http';
-import logger from 'utils/logger';
-import {
-  CreateMusicReq,
-  schema,
-} from '../../../models/request/create-music-req';
+import { HttpMethod, HttpStatus } from '@/utils/http';
+import logger from '@/utils/logger';
+import { CreateMusicReq, schema } from '@/models/request/create-music-req';
 import Ajv from 'ajv';
-import { isMusicExist } from '../../../utils/storage';
-import { saveMusicRecord } from '../../../utils/db/music-dao';
+import { isMusicExist } from '@/utils/storage';
+import { saveMusicRecord } from '@/utils/db/music-dao';
 import { getToken } from 'next-auth/jwt';
 
 const ajv = new Ajv();
@@ -16,7 +13,7 @@ const createMusicRecord = async (
   body: CreateMusicReq,
   res: NextApiResponse
 ) => {
-  const fileExist = isMusicExist(body.fileId);
+  const fileExist = await isMusicExist(body.fileId);
   if (!fileExist) {
     logger.error(body, 'file not exist');
     res
